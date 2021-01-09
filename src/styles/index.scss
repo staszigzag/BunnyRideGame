@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'ZubiloBlack';
+    src: url('./fonts/ZubiloBlack.woff') format('woff'), url('./fonts/ZubiloBlack.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    background-color: rgb(243, 245, 248);
+    font-family: ZubiloBlack;
+}
+// TODO брать селектор из конфига
+#app {
+    height: 95vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#app > canvas {
+    width: 95%;
+}

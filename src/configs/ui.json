@@ -1,0 +1,122 @@
+{
+    "BTN_ARROW_RIGHT": {
+        "textures": {
+            "active": "./assets/ui/arrow_btn_active.png",
+            "hover": "./assets/ui/arrow_btn_hover.png",
+            "press": "./assets/ui/arrow_btn_press.png"
+        },
+        "mirror": false,
+        "width": 38,
+        "height": 42,
+        "positionX": 410,
+        "positionY": 75
+    },
+    "BTN_ARROW_LEFT": {
+        "textures": {
+            "active": "./assets/ui/arrow_btn_active.png",
+            "hover": "./assets/ui/arrow_btn_hover.png",
+            "press": "./assets/ui/arrow_btn_press.png"
+        },
+        "mirror": true,
+        "width": 38,
+        "height": 42,
+        "positionX": 85,
+        "positionY": 75
+    },
+    "BTN_AGREE": {
+        "textures": {
+            "active": "./assets/ui/ok_button_active.png",
+            "hover": "./assets/ui/ok_button_hover.png",
+            "press": "./assets/ui/ok_button_press.png"
+        },
+        "mirror": false,
+        "width": 150,
+        "height": 90,
+        "positionY": 500
+    },
+    "BTN_LEADERBOARD": {
+        "textures": {
+            "active": "./assets/ui/leadboard_button_active.png",
+            "hover": "./assets/ui/leadboard_button_hover.png",
+            "press": "./assets/ui/leadboard_button_press.png"
+        },
+        "mirror": false,
+        "width": 220,
+        "height": 120,
+        "positionX": 35,
+        "positionY": 440
+    },
+    "BTN_PLAY_GAME": {
+        "textures": {
+            "active": "./assets/ui/play_button_active.png",
+            "hover": "./assets/ui/play_button_hover.png",
+            "press": "./assets/ui/play_button_press.png"
+        },
+        "mirror": false,
+        "width": 220,
+        "height": 120,
+        "positionX": 250,
+        "positionY": 440
+    },
+    "MODAL_BASE": {
+        "textures": {
+            "main": "./assets/ui/info_plate_big.png",
+            "header": "./assets/ui/header_info_plate.png"
+        },
+        "width": 500,
+        "height": 610
+    },
+    "MODAL_TITLE": {
+        "text": "gg",
+        "positionX": 250,
+        "positionY": 200
+    },
+    "LEADERBOARD_ROWS": {
+        "marginRowsTop": 145,
+        "offsetRow": 52,
+        "offsetRowOther": 30
+    },
+    "LEADERBOARD_TOP_ROW": {
+        "height": 26,
+        "width": 460,
+        "nameWidth": 415,
+        "namePositionX": 22,
+        "nameTextPositionX": 90,
+        "scoreWidth": 145,
+        "scorePositionX": 445,
+        "scoreTextPositionX": 495
+    },
+    "LEADERBOARD_REST_ROWS": {
+        "textures": {
+            "name": "./assets/ui/midleader_name_plate.png",
+            "score": "./assets/ui/midleader_scores_plate.png"
+        },
+        "height": 24,
+        "width": 440,
+        "countPositionTextPositionX": 45,
+        "nameWidth": 350,
+        "namePositionX": 80,
+        "nameTextPositionX": 85,
+        "scoreWidth": 140,
+        "scorePositionX": 445,
+        "scoreTextPositionX": 495
+    },
+    "LEADERBOARD_FIRST_TOP_NAME": {
+        "textures": {
+            "name": "./assets/ui/place_1.png",
+            "score": "./assets/ui/highleader_scores_plate.png"
+        }
+    },
+    "LEADERBOARD_SECOND_TOP_NAME": {
+        "textures": {
+            "name": "./assets/ui/place_2.png",
+            "score": "./assets/ui/highleader_scores_plate.png"
+        }
+    },
+    "LEADERBOARD_THIRD_TOP_NAME": {
+        "textures": {
+            "name": "./assets/ui/place_3.png",
+            "score": "./assets/ui/highleader_scores_plate.png"
+        }
+    }
+}

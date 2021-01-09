@@ -1,0 +1,8 @@
+{
+    "CONFIG_APP": {
+        "selectorMount": "#app",
+        "width": 1280,
+        "height": 640,
+        "backgroundColor": "#bccff7"
+    }
+}

@@ -1,0 +1,93 @@
+{
+    "MODAL_HEADER": {
+        "fontFamily": "ZubiloBlack",
+        "fill": "#003d71",
+        "fontSize": 40
+    },
+
+    "INTRO_TITLE": {
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 45,
+        "fill": "#00fd17",
+        "align": "center",
+        "dropShadow": true,
+        "dropShadowAngle": 1.3,
+        "dropShadowColor": "#003c76",
+        "dropShadowDistance": 5
+    },
+
+    "INTRO_USER_NAME??": {
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 40,
+        "fill": "#ffffff"
+    },
+
+    "LEADERBOARD_PERIOD": {
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 45,
+        "fill": "#ff6801",
+        "align": "center",
+        "dropShadow": true,
+        "dropShadowAngle": 1.3,
+        "dropShadowColor": "#013e72",
+        "dropShadowDistance": 4
+    },
+
+    "LEADERBOARD_FIRST_TOP_NAME": {
+        "fill": "#c16001",
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 35,
+        "align": "center"
+    },
+    "LEADERBOARD_FIRST_TOP_SCORE": {
+        "fill": "#c26102",
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 35,
+        "align": "center"
+    },
+
+    "LEADERBOARD_SECOND_TOP_NAME": {
+        "fill": "#205caf",
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 35,
+        "align": "center"
+    },
+    "LEADERBOARD_SECOND_TOP_SCORE": {
+        "fill": "#215db0",
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 35,
+        "align": "center"
+    },
+
+    "LEADERBOARD_THIRD_TOP_NAME": {
+        "fill": "#8a1a00",
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 35,
+        "align": "center"
+    },
+    "LEADERBOARD_THIRD_TOP_SCORE": {
+        "fill": "#8b1b01",
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 35,
+        "align": "center"
+    },
+
+    "LEADERBOARD_REST_ROWS_COUNT": {
+        "fill": "#ffffff",
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 30,
+        "align": "center"
+    },
+    "LEADERBOARD_REST_NAME": {
+        "fill": "#333333",
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 30,
+        "align": "center"
+    },
+    "LEADERBOARD_REST_SCORE": {
+        "fill": "#343434",
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 28,
+        "align": "center"
+    }
+}
