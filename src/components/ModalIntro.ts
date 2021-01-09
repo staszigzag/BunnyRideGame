@@ -31,6 +31,9 @@ export default class ModalIntro extends ModalBase {
             $store.updateState({ currentScene: SCENES_IDS.LEADER_BOARD })
         })
         const btnPlayGame = new Button(CONFIG.BTN_PLAY_GAME)
+        btnPlayGame.addClickListener(() => {
+            $store.updateState({ currentScene: SCENES_IDS.GAME })
+        })
 
         this.addChilds(this.titleTextSprite, this.scoreTextSprite, btnLeaderboard.container, btnPlayGame.container)
     }

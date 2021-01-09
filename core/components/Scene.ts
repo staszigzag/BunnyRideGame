@@ -21,4 +21,5 @@ export default abstract class Scene extends BaseUIComponents {
         this.addChilds(this.perimeter)
     }
     abstract init(): void
+    abstract updateBecauseTick(delta?: number): void
 }

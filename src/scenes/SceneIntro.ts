@@ -16,4 +16,5 @@ export default class SceneIntro extends Scene {
     init(): void {
         this.modalIntro.setScoreText(`${randomNumder(100, 900)}`)
     }
+    updateBecauseTick(): void {}
 }

@@ -118,5 +118,21 @@
             "name": "./assets/ui/place_3.png",
             "score": "./assets/ui/highleader_scores_plate.png"
         }
+    },
+    "GAME": {
+        "textures": {
+            "floor": "./assets/floor.png"
+        }
+    },
+    "BUNNY": {
+        "textures": {
+            "bunnyIdle": "./assets/idle.png",
+            "bunnyJump": "./assets/jump.png",
+            "bunnyDead": "./assets/dead.png"
+        },
+        "height": 230,
+        "width": 230,
+        "positionX": 35,
+        "positionY": 40
     }
 }

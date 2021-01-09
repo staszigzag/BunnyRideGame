@@ -41,4 +41,8 @@ export default abstract class ScenesController {
         if (!scene) return null
         return scene
     }
+    // сообщаем сценам что был тик приложения
+    updateScenesBecauseTick(delta: number): void {
+        this.scenes.forEach((s) => s.updateBecauseTick(delta))
+    }
 }

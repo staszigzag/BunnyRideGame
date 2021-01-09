@@ -14,7 +14,6 @@ export default class SceneLeaderboard extends Scene {
         this.addChilds(this.modalLeaderboard.container)
     }
     // при активации сцены вызывается init
-    init(): void {
-        console.log('init scene ', this.id)
-    }
+    init(): void {}
+    updateBecauseTick(): void {}
 }
