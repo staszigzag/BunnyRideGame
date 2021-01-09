@@ -132,7 +132,18 @@
         },
         "height": 230,
         "width": 230,
-        "positionX": 35,
+        "positionX": 245,
         "positionY": 40
+    },
+    "STOPPER_ICE": {
+        "textures": {
+            "stopperIdle": "./assets/stopper_idle.png",
+            "stopperCrushed": "./assets/stopper_crushed.png"
+        },
+        "height": 170,
+        "width": 230
+    },
+    "STOPPERS_ICE_CONTROLLER": {
+        "spawnDelay": 500
     }
 }

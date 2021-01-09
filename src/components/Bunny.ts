@@ -39,7 +39,4 @@ export default class Bunny extends BaseUIComponents {
         // задаем якорь посредине
         // this.container.pivot.x = this.container.width / 2
     }
-    setTitleText(text: string): void {
-        // this.headerTextSprite.text = text
-    }
 }
