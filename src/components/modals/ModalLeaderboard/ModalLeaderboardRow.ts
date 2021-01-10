@@ -21,7 +21,7 @@ interface IRowOptions {
     countPositionTextPositionX?: number
 }
 
-export class ModalLeaderboardRow extends BaseUIComponents {
+export default class ModalLeaderboardRow extends BaseUIComponents {
     private nameSprite: PIXI.Sprite
     private scoreSprite: PIXI.Sprite
     private nameTextSprite: PIXI.Text

@@ -1,5 +1,5 @@
 import Scene, { ISceneOptions } from '@core/components/Scene'
-import ModalLeaderboard from '@/components/ModalLeaderboard'
+import ModalLeaderboard from '@/components/modals/ModalLeaderboard'
 
 export default class SceneLeaderboard extends Scene {
     private modalLeaderboard: ModalLeaderboard

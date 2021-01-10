@@ -7,7 +7,7 @@ import Collision from '@core/Collision'
 import KeyboardController from '@core/KeyboardController'
 import $gsap from '@/plugins/gsap'
 import Floor from '@/components/Floor'
-import ModalResult from '@/components/ModalResult'
+import ModalResult from '@/components/modals/ModalResult'
 
 export default class SceneGame extends Scene {
     private modalResult: ModalResult
@@ -54,7 +54,7 @@ export default class SceneGame extends Scene {
     init(): void {
         this.gameStart()
     }
-    gameStart(): void {
+    private gameStart(): void {
         this.modalResult.hiden()
         this.isRun = true
         this.generatorStoppersIce.stopLoopSpawn()
@@ -63,7 +63,7 @@ export default class SceneGame extends Scene {
         this.generatorStoppersIce.startLoopSpawn()
         this.bunny.idle()
     }
-    gameEnd(): void {
+    private gameEnd(): void {
         this.isRun = false
         this.bunny.dead()
         this.modalResult.show()
@@ -74,8 +74,9 @@ export default class SceneGame extends Scene {
             ease: 'bounce.out'
         })
     }
-    gameLoop(): void {
+    private gameLoop(): void {
         this.generatorStoppersIce.getStopersIce().forEach((s) => {
+            // TODO реализовать hitBox
             const isСollision = Collision.check(this.bunny.container, s.container)
             if (isСollision) {
                 s.crushed()
@@ -87,7 +88,7 @@ export default class SceneGame extends Scene {
             if (!isVisiblen) this.generatorStoppersIce.delete(s)
         })
     }
-    updatePositionLoop(delta: number): void {
+    private updatePositionLoop(delta: number): void {
         const d = delta * this.speed
         this.floor.addDeltaTilePositionX(-d)
         this.generatorStoppersIce.updateBecauseTick(d)
