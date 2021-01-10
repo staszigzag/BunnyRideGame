@@ -14,7 +14,7 @@ export interface IUserLeaderboard {
     score: string
 }
 export default class ModalLeaderboard extends ModalBase {
-    private periodTextSprite: PIXI.Text
+    private periodText: PIXI.Text
     private btnNext: Button
     private btnPrev: Button
     private btnAgree: Button
@@ -28,13 +28,13 @@ export default class ModalLeaderboard extends ModalBase {
         super()
         this.setTitleText(TEXTS.MODAL_LEADERBOARD.header)
 
-        this.periodTextSprite = new PIXI.Text(
+        this.periodText = new PIXI.Text(
             this.periodsTypes[this.currentCountPeriod],
             new PIXI.TextStyle(STYLES.LEADERBOARD_PERIOD)
         )
-        this.periodTextSprite.anchor.set(0.5, 0) // align center
-        this.periodTextSprite.x = this.container.width / 2
-        this.periodTextSprite.y = 60 // margin top
+        this.periodText.anchor.set(0.5, 0) // align center
+        this.periodText.x = this.container.width / 2
+        this.periodText.y = 60 // margin top
 
         this.btnNext = new Button(CONFIG.BTN_ARROW_RIGHT)
         this.btnNext.addClickListener(() => {
@@ -58,10 +58,10 @@ export default class ModalLeaderboard extends ModalBase {
         this.btnAgree.container.pivot.x = this.btnAgree.container.width / 2 // align center
         this.btnAgree.container.x = this.container.width / 2
 
-        this.addChilds(this.periodTextSprite, this.btnNext.container, this.btnPrev.container, this.btnAgree.container)
+        this.addChilds(this.periodText, this.btnNext.container, this.btnPrev.container, this.btnAgree.container)
     }
     setPeriodText(text: string): void {
-        this.periodTextSprite.text = text
+        this.periodText.text = text
     }
     private initializeRow(row: ModalLeaderboardRow, user: IUserLeaderboard, idx: number): void {
         row.container.y =

@@ -89,5 +89,15 @@
         "fontFamily": "ZubiloBlack",
         "fontSize": 28,
         "align": "center"
+    },
+    "RESULT_SCORE": {
+        "fontFamily": "ZubiloBlack",
+        "fontSize": 120,
+        "fill": "#00cc00",
+        "align": "center",
+        "dropShadow": true,
+        "dropShadowAngle": 1.3,
+        "dropShadowColor": "#003b6d",
+        "dropShadowDistance": 5
     }
 }

@@ -7,8 +7,10 @@ import Collision from '@core/Collision'
 import KeyboardController from '@core/KeyboardController'
 import $gsap from '@/plugins/gsap'
 import Floor from '@/components/Floor'
+import ModalResult from '@/components/ModalResult'
 
 export default class SceneGame extends Scene {
+    private modalResult: ModalResult
     private floor: Floor
     private generatorStoppersIce: StopperIceController
     private bunny: Bunny
@@ -16,6 +18,12 @@ export default class SceneGame extends Scene {
     private speed = 10
     constructor(options: ISceneOptions) {
         super(options)
+        this.modalResult = new ModalResult()
+        this.modalResult.hiden()
+        // центруем модалку посредине сцены
+        this.modalResult.container.x = this.container.width / 2
+        this.modalResult.container.y = 15 // margin top
+
         this.bunny = new Bunny(CONFIG.BUNNY)
 
         this.floor = new Floor({ ...CONFIG.FLOOR, width: options.width })
@@ -28,18 +36,26 @@ export default class SceneGame extends Scene {
         // делаем генератор льда частью пола
         this.floor.addChilds(this.generatorStoppersIce.container)
 
+        const onAction = () => {
+            console.log('onAction')
+            if (this.isRun) this.bunny.jump()
+            else this.gameStart()
+        }
+        const onHover = () => {
+            console.log('onHover')
+        }
         const spaceKey = new KeyboardController('Space')
-        spaceKey.addListenerDown(() => {
-            this.bunny.jump()
-        })
+        spaceKey.addListenerDown(onAction)
+        // document.addEventListener('touchstart', onAction)
 
-        this.addChilds(this.floor.container, this.bunny.container)
+        this.addChilds(this.floor.container, this.bunny.container, this.modalResult.container)
     }
     // при активации сцены вызывается init
     init(): void {
         this.gameStart()
     }
     gameStart(): void {
+        this.modalResult.hiden()
         this.isRun = true
         this.generatorStoppersIce.stopLoopSpawn()
         this.generatorStoppersIce.clearAll()
@@ -50,6 +66,13 @@ export default class SceneGame extends Scene {
     gameEnd(): void {
         this.isRun = false
         this.bunny.dead()
+        this.modalResult.show()
+        $gsap.from(this.modalResult.container, {
+            y: -640,
+            delay: 0.4,
+            duration: 1,
+            ease: 'bounce.out'
+        })
     }
     gameLoop(): void {
         this.generatorStoppersIce.getStopersIce().forEach((s) => {

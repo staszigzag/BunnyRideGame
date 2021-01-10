@@ -8,36 +8,38 @@ import $store from '@/store'
 import { SCENES_IDS } from '@/scenes/scenes_ids'
 
 export default class ModalIntro extends ModalBase {
-    private titleTextSprite: PIXI.Text
-    private scoreTextSprite: PIXI.Text
+    private titleText: PIXI.Text
+    private scoreText: PIXI.Text
+    private btnLeaderboard: Button
+    private btnPlayGame: Button
 
     constructor() {
         super()
         this.setTitleText(TEXTS.MODAL_INTRO.header)
 
-        this.titleTextSprite = new PIXI.Text(TEXTS.MODAL_INTRO.title, new PIXI.TextStyle(STYLES.INTRO_TITLE))
-        this.titleTextSprite.anchor.set(0.5, 0) // align center
-        this.titleTextSprite.x = this.container.width / 2
-        this.titleTextSprite.y = 100 // margin top
+        this.titleText = new PIXI.Text(TEXTS.MODAL_INTRO.title, new PIXI.TextStyle(STYLES.INTRO_TITLE))
+        this.titleText.anchor.set(0.5, 0) // align center
+        this.titleText.x = this.container.width / 2
+        this.titleText.y = 100 // margin top
 
-        this.scoreTextSprite = new PIXI.Text('', new PIXI.TextStyle(STYLES.INTRO_TITLE))
-        this.scoreTextSprite.anchor.set(0.5, 0) // align center
-        this.scoreTextSprite.x = this.container.width / 2
-        this.scoreTextSprite.y = 170 // margin top
+        this.scoreText = new PIXI.Text('', new PIXI.TextStyle(STYLES.INTRO_TITLE))
+        this.scoreText.anchor.set(0.5, 0) // align center
+        this.scoreText.x = this.container.width / 2
+        this.scoreText.y = 170 // margin top
 
-        const btnLeaderboard = new Button(CONFIG.BTN_LEADERBOARD)
-        btnLeaderboard.addClickListener(() => {
+        this.btnLeaderboard = new Button(CONFIG.BTN_LEADERBOARD)
+        this.btnLeaderboard.addClickListener(() => {
             // обноыляем стор
             $store.updateState({ currentScene: SCENES_IDS.LEADER_BOARD })
         })
-        const btnPlayGame = new Button(CONFIG.BTN_PLAY_GAME)
-        btnPlayGame.addClickListener(() => {
+        this.btnPlayGame = new Button(CONFIG.BTN_PLAY_GAME)
+        this.btnPlayGame.addClickListener(() => {
             $store.updateState({ currentScene: SCENES_IDS.GAME })
         })
 
-        this.addChilds(this.titleTextSprite, this.scoreTextSprite, btnLeaderboard.container, btnPlayGame.container)
+        this.addChilds(this.titleText, this.scoreText, this.btnLeaderboard.container, this.btnPlayGame.container)
     }
     setScoreText(text: string): void {
-        this.scoreTextSprite.text = text
+        this.scoreText.text = text
     }
 }
