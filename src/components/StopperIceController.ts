@@ -2,43 +2,54 @@ import BaseUIComponents from '@core/components/BaseUIComponents'
 import StopperIce from './StopperIce'
 import CONFIG from '@/configs/ui.json'
 import * as PIXI from 'pixi.js'
+import { randomNumder } from '@/utils'
 
 interface IStopperIceControllerOptions {
-    spawnDelay: number
+    minSpawnDelay: number
+    maxSpawnDelay: number
     width: number
 }
 
 export default class StopperIceController extends BaseUIComponents {
-    protected perimeter: PIXI.Graphics
+    perimeter: PIXI.Graphics
     private stoppers: StopperIce[] = []
     private width: number
-    private spawnDelay: number
-    private countStopersCreated = 0
+    private minSpawnDelay: number
+    private maxSpawnDelay: number
+    private idTimer: number | undefined
 
     constructor(options: IStopperIceControllerOptions) {
         super()
         this.width = options.width
 
-        this.spawnDelay = options.spawnDelay
-        this.perimeter = new PIXI.Graphics()
-        this.perimeter.lineStyle(4, 0xff00ff)
-        this.perimeter.drawRect(0, 0, this.width, 400)
-        this.addChilds(this.perimeter)
-        setInterval(() => {
-            this.spawn()
-        }, 1500)
-        this.spawn()
-        this.spawn()
-    }
-    updateBecauseTick(delta: number): void {
-        this.stoppers.forEach((s) => {
-            s.container.x -= delta
-        })
-    }
+        this.minSpawnDelay = options.minSpawnDelay
+        this.maxSpawnDelay = options.maxSpawnDelay
 
-    clearAll(): void {
-        this.container.removeChildren()
-        this.stoppers = []
+        // используем периметр для определения места спавна и для чека что стопор вышел за граници
+        this.perimeter = new PIXI.Graphics()
+        // this.perimeter.lineStyle(1, 0xff00ff)
+        this.perimeter.drawRect(0, 0, this.width, 1)
+        this.addChilds(this.perimeter)
+    }
+    getStopersIce(): StopperIce[] {
+        return this.stoppers
+    }
+    spawn(): void {
+        const stopper = new StopperIce(CONFIG.STOPPER_ICE)
+        stopper.container.pivot.y = stopper.container.height
+        stopper.container.x = this.width
+        this.addChilds(stopper.container)
+        this.stoppers.push(stopper)
+    }
+    startLoopSpawn(): void {
+        // TODO привязать цикл спавна к тикам самой игры вместо глобального setTimeout
+        this.idTimer = (setTimeout(() => {
+            this.spawn()
+            this.startLoopSpawn()
+        }, randomNumder(this.minSpawnDelay, this.maxSpawnDelay)) as unknown) as number
+    }
+    stopLoopSpawn(): void {
+        clearTimeout(this.idTimer)
     }
     delete(stopper: StopperIce): void {
         const index = this.stoppers.indexOf(stopper)
@@ -46,35 +57,15 @@ export default class StopperIceController extends BaseUIComponents {
         this.stoppers.splice(index, 1)
         this.container.removeChild(stopper.container)
     }
-
-    // spawnCalc(delta): void {
-    //     if (this.#stoppers.length >= this.#maxSpawn) return;
-    //     if (this.#spawnTimer >= this.#spawnDelay) {
-    //         this.#spawn();
-    //         this.#calculateSpawnDelay();
-    //         this.#spawnTimer = 0;
-    //     }
-    //     this.#spawnTimer += delta;
-    // }
-
-    // #calculateSpawnDelay() {
-    //     this.#spawnDelay = getRandomInt(2000, 4000);
-    // }
-
-    // #handleStoppersOutside() {
-    //     this.#stoppers.forEach((stopper) => {
-    //         const isOutside = !Collision.check(this.#collisionRect, stopper);
-    //         if (isOutside) {
-    //             this.#destroy(stopper);
-    //         }
-    //     });
-    // }
-
-    spawn(): void {
-        const stopper = new StopperIce(CONFIG.STOPPER_ICE)
-        // stopper.anchor.set(0, 1)
-        stopper.container.x = this.width
-        this.addChilds(stopper.container)
-        this.stoppers.push(stopper)
+    clearAll(): void {
+        const lehgth = this.container.children.length
+        if (lehgth > 1) this.container.removeChildren(1, lehgth) // оставляем perimeter box
+        this.stoppers = []
+    }
+    updateBecauseTick(delta: number): void {
+        console.log('count stoppers', this.container.children.length - 1, this.stoppers.length)
+        this.stoppers.forEach((s) => {
+            s.container.x -= delta
+        })
     }
 }

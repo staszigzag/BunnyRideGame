@@ -5,47 +5,73 @@ import * as PIXI from 'pixi.js'
 import StopperIceController from '@/components/StopperIceController'
 import Collision from '@core/Collision'
 import KeyboardController from '@core/KeyboardController'
-
-interface IGameOptions extends ISceneOptions {
-    textures: {
-        floor: string
-    }
-}
+import $gsap from '@/plugins/gsap'
+import Floor from '@/components/Floor'
 
 export default class SceneGame extends Scene {
-    private floorSprite: PIXI.TilingSprite
-    private wrapperStoppersIce: StopperIceController
+    private floor: Floor
+    private generatorStoppersIce: StopperIceController
     private bunny: Bunny
-    private speed = 4
-    constructor(options: IGameOptions) {
+    private isRun = false
+    private speed = 12 // 8
+    constructor(options: ISceneOptions) {
         super(options)
-        this.floorSprite = new PIXI.TilingSprite(
-            PIXI.Texture.from(options.textures.floor),
-            options.width,
-            options.height / 2
-        )
+        this.bunny = new Bunny(CONFIG.BUNNY)
+
+        this.floor = new Floor({ ...CONFIG.FLOOR, width: options.width })
+
+        this.generatorStoppersIce = new StopperIceController({
+            ...CONFIG.STOPPERS_ICE_CONTROLLER,
+            width: options.width
+        })
+        this.generatorStoppersIce.container.y = 5 // mini corrected
+        // делаем генератор льда частью пола
+        this.floor.addChilds(this.generatorStoppersIce.container)
 
         const spaceKey = new KeyboardController('Space')
         spaceKey.addListenerDown(() => {
-            console.log('text 42')
+            this.bunny.jump()
         })
 
-        // this.floorSprite.anchor.set(0.5, 0)
-        this.floorSprite.y = options.height / 2
-        this.bunny = new Bunny(CONFIG.BUNNY)
-        this.wrapperStoppersIce = new StopperIceController({ ...CONFIG.STOPPERS_ICE_CONTROLLER, width: options.width })
-
-        this.addChilds(this.floorSprite, this.bunny.container, this.wrapperStoppersIce.container)
+        this.addChilds(this.floor.container, this.bunny.container)
     }
     // при активации сцены вызывается init
     init(): void {
-        // this.modalIntro.setScoreText(`${randomNumder(100, 900)}`)
+        this.gameStart()
+    }
+    gameStart(): void {
+        this.isRun = true
+        this.generatorStoppersIce.stopLoopSpawn()
+        this.generatorStoppersIce.clearAll()
+        this.generatorStoppersIce.spawn()
+        this.generatorStoppersIce.startLoopSpawn()
+        this.bunny.idle()
+    }
+    gameEnd(): void {
+        this.isRun = false
+        this.bunny.dead()
+    }
+    gameLoop(): void {
+        this.generatorStoppersIce.getStopersIce().forEach((s) => {
+            const isСollision = Collision.check(this.bunny.container, s.container)
+            if (isСollision) {
+                s.crushed()
+                this.gameEnd()
+            }
+            // удаляем вне зоны видимости
+            // TODO можно сделать пул стопов, и при спавне брать из него, а при удалении возврращать
+            const isVisiblen = Collision.check(this.generatorStoppersIce.perimeter, s.container)
+            if (!isVisiblen) this.generatorStoppersIce.delete(s)
+        })
+    }
+    updatePositionLoop(delta: number): void {
+        const d = delta * this.speed
+        this.floor.addDeltaTilePositionX(-d)
+        this.generatorStoppersIce.updateBecauseTick(d)
     }
     updateBecauseTick(delta: number): void {
-        const d = delta * this.speed
-        this.floorSprite.tilePosition.x -= d
-        this.wrapperStoppersIce.updateBecauseTick(d)
-        // const is = Collision.check(this.bunny.container, this.wrapperStoppersIce.container.children[1])
-        // console.log(is)
+        if (!this.isRun) return
+        this.updatePositionLoop(delta)
+        this.gameLoop()
     }
 }

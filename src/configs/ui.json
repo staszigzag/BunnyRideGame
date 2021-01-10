@@ -127,24 +127,23 @@
         },
         "scale": 0.7,
         "positionX": 245,
-        "positionY": 330
+        "positionY": 275
     },
     "FLOOR": {
         "textureFloor": "./assets/floor.png",
         "height": 230,
         "rotation": 3,
-        "positionY": 490
+        "positionY": 500
     },
     "STOPPER_ICE": {
         "textures": {
             "stopperIdle": "./assets/stopper_idle.png",
             "stopperCrushed": "./assets/stopper_crushed.png"
         },
-        "height": 90,
-        "width": 150
+        "scale": 0.6
     },
     "STOPPERS_ICE_CONTROLLER": {
-        "minSpawnDelay": 3000,
-        "maxSpawnDelay": 6000
+        "minSpawnDelay": 2000,
+        "maxSpawnDelay": 3500
     }
 }

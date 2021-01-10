@@ -8,8 +8,7 @@ interface ITypeStateStopperIce<T> {
 
 interface IStopperIceOptions {
     textures: ITypeStateStopperIce<string>
-    width: number
-    height: number
+    scale: number
 }
 
 export default class StopperIce extends BaseUIComponents {
@@ -24,11 +23,11 @@ export default class StopperIce extends BaseUIComponents {
         }
 
         this.sprite.texture = this.textures.stopperIdle
-        this.sprite.width = options.width
-        this.sprite.height = options.height
+        this.sprite.anchor.set(0, 1)
+        this.container.scale.set(options.scale)
         this.addChilds(this.sprite)
     }
     crushed(): void {
-        this.sprite.texture = this.textures.stopperIdle
+        this.sprite.texture = this.textures.stopperCrushed
     }
 }
