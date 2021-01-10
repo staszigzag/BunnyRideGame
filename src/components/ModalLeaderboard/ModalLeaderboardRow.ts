@@ -1,4 +1,5 @@
 import BaseUIComponents from '@core/components/BaseUIComponents'
+import Cache from '@core/store/Cache'
 import * as PIXI from 'pixi.js'
 
 interface IRowOptions {
@@ -29,13 +30,14 @@ export class ModalLeaderboardRow extends BaseUIComponents {
     private nameTextSprite: PIXI.Text
     private scoreTextSprite: PIXI.Text
     private countPositionTextSprite: PIXI.Text | undefined
+    static cacheTexture: Cache<PIXI.Texture> = new Cache<PIXI.Texture>()
 
     constructor(options: IRowOptions) {
         super()
-        this.nameSprite = new PIXI.Sprite(PIXI.Texture.from(options.textures.name))
-        this.scoreSprite = new PIXI.Sprite(PIXI.Texture.from(options.textures.score))
-        this.nameTextSprite = new PIXI.Text('Pavel', options.styles.name)
-        this.scoreTextSprite = new PIXI.Text('4944', options.styles.score)
+        this.nameSprite = new PIXI.Sprite(this.createTexture(options.textures.name))
+        this.scoreSprite = new PIXI.Sprite(this.createTexture(options.textures.score))
+        this.nameTextSprite = new PIXI.Text('', options.styles.name)
+        this.scoreTextSprite = new PIXI.Text('', options.styles.score)
 
         this.nameSprite.anchor.set(0, 0.5) // vertical align center
         this.nameSprite.width = options.nameWidth
@@ -52,7 +54,6 @@ export class ModalLeaderboardRow extends BaseUIComponents {
         this.scoreTextSprite.x = options.scoreTextPositionX
 
         this.addChilds(this.nameSprite, this.scoreSprite, this.nameTextSprite, this.scoreTextSprite)
-
         // если есть порядковая позиция вополняем этот блок
         if (options.countPosition) {
             this.countPositionTextSprite = new PIXI.Text(`${options.countPosition}`, options.styles.countPosition)
@@ -60,8 +61,19 @@ export class ModalLeaderboardRow extends BaseUIComponents {
             this.countPositionTextSprite.x = options.countPositionTextPositionX!
             this.addChilds(this.countPositionTextSprite)
         }
-        this.container.height = options.height
+
         this.container.width = options.width
+        this.container.height = options.height
+    }
+    createTexture(path: string): PIXI.Texture {
+        // локальный кэш для текстур
+        // TODO переделать на один глобальный для всех
+        let texture = ModalLeaderboardRow.cacheTexture.get(path)
+        if (!texture) {
+            texture = PIXI.Texture.from(path)
+            ModalLeaderboardRow.cacheTexture.add(path, texture)
+        }
+        return texture
     }
     setNameText(text: string): void {
         this.nameTextSprite.text = text

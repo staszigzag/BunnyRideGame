@@ -57,8 +57,9 @@ export default class StopperIceController extends BaseUIComponents {
         this.container.removeChild(stopper.container)
     }
     clearAll(): void {
-        const lehgth = this.container.children.length
-        if (lehgth > 1) this.container.removeChildren(1, lehgth) // оставляем perimeter box
+        this.stoppers.forEach((s) => {
+            s.container.destroy()
+        })
         this.stoppers = []
     }
     updateBecauseTick(delta: number): void {

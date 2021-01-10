@@ -8,6 +8,7 @@ import { generatMockUsersForLeaderboard } from '@/utils'
 import { ModalLeaderboardRow } from './ModalLeaderboard/ModalLeaderboardRow'
 import $store from '@/store'
 import { SCENES_IDS } from '@/scenes/scenes_ids'
+import $gsap from '@/plugins/gsap'
 
 export interface IUserLeaderboard {
     name: string
@@ -20,6 +21,9 @@ export default class ModalLeaderboard extends ModalBase {
     private btnAgree: Button
     private periodsTypes = [TEXTS.MODAL_LEADERBOARD.all, TEXTS.MODAL_LEADERBOARD.month, TEXTS.MODAL_LEADERBOARD.week]
     private currentCountPeriod = 0
+    private currentRows: ModalLeaderboardRow[] = []
+    // если нужнт острановить анимацию
+    private animationTween: gsap.core.Tween | undefined
     // TODO переделать присваение конфига
     private marginRowsTop = CONFIG.LEADERBOARD_ROWS.marginRowsTop
     private offsetRow = CONFIG.LEADERBOARD_ROWS.offsetRow
@@ -38,16 +42,18 @@ export default class ModalLeaderboard extends ModalBase {
 
         this.btnNext = new Button(CONFIG.BTN_ARROW_RIGHT)
         this.btnNext.addClickListener(() => {
-            this.currentCountPeriod =
-                this.currentCountPeriod === 2 ? this.currentCountPeriod : this.currentCountPeriod + 1
+            if (this.currentCountPeriod === 2) return
+            this.currentCountPeriod += 1
             this.setPeriodText(this.periodsTypes[this.currentCountPeriod])
+            this.createRowsForLeaderboard()
         })
 
         this.btnPrev = new Button(CONFIG.BTN_ARROW_LEFT)
         this.btnPrev.addClickListener(() => {
-            this.currentCountPeriod =
-                this.currentCountPeriod === 0 ? this.currentCountPeriod : this.currentCountPeriod - 1
+            if (this.currentCountPeriod === 0) return
+            this.currentCountPeriod -= 1
             this.setPeriodText(this.periodsTypes[this.currentCountPeriod])
+            this.createRowsForLeaderboard()
         })
 
         this.btnAgree = new Button(CONFIG.BTN_AGREE)
@@ -73,11 +79,12 @@ export default class ModalLeaderboard extends ModalBase {
     }
 
     createRowsForLeaderboard(usersInfo: IUserLeaderboard[] = []): void {
-        // исполльзуем моки
+        // исполльзуем моки если нет реальных
         if (!usersInfo.length) usersInfo = generatMockUsersForLeaderboard(10)
-        const rows: PIXI.Container[] = []
+        // удаляем старые строки
+        this.clearAllCurrentRows()
         usersInfo.forEach((user, idx) => {
-            let row
+            let row: ModalLeaderboardRow
             // есть повторяющиеся места, но явное лучше неявного
             switch (idx) {
                 case 0:
@@ -126,9 +133,25 @@ export default class ModalLeaderboard extends ModalBase {
                     this.initializeRow(row, user, idx)
                     break
             }
-            if (row) rows.push(row.container)
+            if (row) this.currentRows.push(row)
         })
-        this.addChilds(...rows)
-        // return rows
+        this.showCurrentRows()
+    }
+
+    showCurrentRows(): void {
+        console.log('rows', this.currentRows.length, this.container.children)
+        // если есть запущенная анимация то убиваем ее
+        // P.S. у прошедшей как же можно вызывать
+        this.animationTween?.kill()
+
+        const containersRows = this.currentRows.map((r) => r.container)
+        this.addChilds(...containersRows)
+        this.animationTween = $gsap.from(containersRows, { pixi: { alpha: 0 }, x: 60, ease: 'bounce', stagger: 0.13 })
+    }
+    clearAllCurrentRows(): void {
+        this.currentRows.forEach((r) => {
+            r.container.destroy()
+        })
+        this.currentRows = []
     }
 }
