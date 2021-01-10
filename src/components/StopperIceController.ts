@@ -36,7 +36,6 @@ export default class StopperIceController extends BaseUIComponents {
     }
     spawn(): void {
         const stopper = new StopperIce(CONFIG.STOPPER_ICE)
-        stopper.container.pivot.y = stopper.container.height
         stopper.container.x = this.width
         this.addChilds(stopper.container)
         this.stoppers.push(stopper)

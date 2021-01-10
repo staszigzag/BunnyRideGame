@@ -23,7 +23,9 @@ export default class StopperIce extends BaseUIComponents {
         }
 
         this.sprite.texture = this.textures.stopperIdle
+        // важно и спрайту и контейнерру задать одинаковый якороь, что техтуры без смешения менялись
         this.sprite.anchor.set(0, 1)
+        this.container.pivot.y = this.container.height
         this.container.scale.set(options.scale)
         this.addChilds(this.sprite)
     }

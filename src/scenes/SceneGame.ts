@@ -13,7 +13,7 @@ export default class SceneGame extends Scene {
     private generatorStoppersIce: StopperIceController
     private bunny: Bunny
     private isRun = false
-    private speed = 12 // 8
+    private speed = 10
     constructor(options: ISceneOptions) {
         super(options)
         this.bunny = new Bunny(CONFIG.BUNNY)

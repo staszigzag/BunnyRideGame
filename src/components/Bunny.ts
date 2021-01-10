@@ -21,6 +21,7 @@ export default class Bunny extends BaseUIComponents {
     private textures: ITypeStateBunny<PIXI.Texture>
     private sprite = new PIXI.Sprite()
     private isJumping = false
+    private isDead = false
     constructor(options: IBunnyOptions) {
         super()
 
@@ -31,21 +32,23 @@ export default class Bunny extends BaseUIComponents {
         }
 
         this.sprite.texture = this.textures.bunnyIdle
-        this.sprite.anchor.set(-1, -1)
         this.container.scale.set(options.scale)
+        // важно и спрайту и контейнерру задать одинаковый якороь, что техтуры без смешения менялись
+        this.container.pivot.y = this.container.height
+        this.sprite.anchor.set(0, 1)
+        this.addChilds(this.sprite)
+
         this.container.x = options.positionX
         this.container.y = options.positionY
-
-        this.addChilds(this.sprite)
     }
 
     jump(): void {
-        if (this.isJumping) return
+        if (this.isJumping || this.isDead) return
         this.sprite.texture = this.textures.bunnyJump
         this.isJumping = true
         $gsap
             .to(this.container, {
-                y: 50,
+                y: 230,
                 // pixi: { positionY: -20 },
                 duration: 0.6,
                 repeat: 1,
@@ -54,29 +57,24 @@ export default class Bunny extends BaseUIComponents {
             })
             .then(() => {
                 this.isJumping = false
-                this.idle()
+                if (!this.isDead) this.idle()
                 console.log('finish')
             })
     }
     idle(): void {
+        this.isDead = false
         this.sprite.texture = this.textures.bunnyIdle
     }
     dead(): void {
+        this.isDead = true
         this.sprite.texture = this.textures.bunnyDead
-        // $gsap.to(this.container, {
-        //     y: '+=40',
-
-        //     // pixi: { positionY: -20 },
-        //     duration: 0.2,
-        //     // repeat: 1,
-        //     // yoyo: true,
-        //     ease: 'elastic '
-        // })
-
-        // .then(() => {
-        //     this.isJumping = false
-        //     this.idle()
-        //     console.log('finish')
-        // })
+        if (this.isJumping) return
+        $gsap.to(this.container, {
+            y: '-=40',
+            duration: 0.2,
+            repeat: 1,
+            yoyo: true,
+            ease: 'power1'
+        })
     }
 }

@@ -17,7 +17,7 @@ export default class BunnyRide extends App {
         const scenes = [
             new SceneIntro({ id: SCENES_IDS.INTRO, ...size }),
             new SceneLeaderboard({ id: SCENES_IDS.LEADER_BOARD, ...size }),
-            new SceneGame({ id: SCENES_IDS.GAME, ...CONFIG.GAME, ...size })
+            new SceneGame({ id: SCENES_IDS.GAME, ...size })
         ]
         // регистрируем все сцены
         super(CONFIG_APP, scenes)

@@ -127,7 +127,7 @@
         },
         "scale": 0.7,
         "positionX": 245,
-        "positionY": 275
+        "positionY": 530
     },
     "FLOOR": {
         "textureFloor": "./assets/floor.png",
@@ -143,7 +143,7 @@
         "scale": 0.6
     },
     "STOPPERS_ICE_CONTROLLER": {
-        "minSpawnDelay": 2000,
-        "maxSpawnDelay": 3500
+        "minSpawnDelay": 1500,
+        "maxSpawnDelay": 3000
     }
 }
