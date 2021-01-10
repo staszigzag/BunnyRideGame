@@ -10,8 +10,6 @@ interface IStopperIceOptions {
     textures: ITypeStateStopperIce<string>
     width: number
     height: number
-    // positionX: number
-    // positionY: number
 }
 
 export default class StopperIce extends BaseUIComponents {
@@ -29,10 +27,8 @@ export default class StopperIce extends BaseUIComponents {
         this.sprite.width = options.width
         this.sprite.height = options.height
         this.addChilds(this.sprite)
-
-        // this.container.x = options.positionX
-        // this.container.y = options.positionY
-        // задаем якорь посредине
-        // this.container.pivot.x = this.container.width / 2
+    }
+    crushed(): void {
+        this.sprite.texture = this.textures.stopperIdle
     }
 }

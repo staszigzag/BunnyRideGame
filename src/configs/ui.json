@@ -119,31 +119,32 @@
             "score": "./assets/ui/highleader_scores_plate.png"
         }
     },
-    "GAME": {
-        "textures": {
-            "floor": "./assets/floor.png"
-        }
-    },
     "BUNNY": {
         "textures": {
             "bunnyIdle": "./assets/idle.png",
             "bunnyJump": "./assets/jump.png",
             "bunnyDead": "./assets/dead.png"
         },
-        "height": 230,
-        "width": 230,
+        "scale": 0.7,
         "positionX": 245,
-        "positionY": 40
+        "positionY": 330
+    },
+    "FLOOR": {
+        "textureFloor": "./assets/floor.png",
+        "height": 230,
+        "rotation": 3,
+        "positionY": 490
     },
     "STOPPER_ICE": {
         "textures": {
             "stopperIdle": "./assets/stopper_idle.png",
             "stopperCrushed": "./assets/stopper_crushed.png"
         },
-        "height": 170,
-        "width": 230
+        "height": 90,
+        "width": 150
     },
     "STOPPERS_ICE_CONTROLLER": {
-        "spawnDelay": 500
+        "minSpawnDelay": 3000,
+        "maxSpawnDelay": 6000
     }
 }

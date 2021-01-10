@@ -21,6 +21,7 @@ export default class BunnyRide extends App {
         ]
         // регистрируем все сцены
         super(CONFIG_APP, scenes)
+        // this.app.ticker.stop()
         // и показываем нужную
         $store.subscribe((state) => {
             // TODO оптимизировать обработку событий из стора

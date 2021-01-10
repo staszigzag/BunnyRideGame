@@ -31,7 +31,6 @@ export default abstract class App extends ScenesController {
 
         // пробрасываем тик сценам
         this.app.ticker.add((delta: number) => this.updateScenesBecauseTick(delta))
-        // this.app.ticker.add((delta) => console.log(55))
         document.querySelector(options.selectorMount)!.appendChild(this.app.view)
     }
     addChilds<TChildren extends PIXI.DisplayObject[]>(...children: TChildren): void {
