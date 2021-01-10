@@ -24,7 +24,10 @@ module.exports = {
     ignorePatterns: ['../dist/*.*'],
     rules: {
         'prettier/prettier': 'error',
+
         semi: 'off',
+        '@typescript-eslint/no-empty-function': 'off',
+        'class-methods-use-this': IS_PROD ? 'warn' : 'off',
         'no-shadow': IS_PROD ? 'warn' : 'off',
         'max-classes-per-file': 'off',
         'import/order': 'off',
@@ -41,6 +44,7 @@ module.exports = {
         'no-debugger': IS_PROD ? 'error' : 'off',
         'no-unused-vars': IS_PROD ? 'warn' : 'off',
         'no-useless-return': 'off',
+
         'space-before-function-paren': [
             'error',
             {

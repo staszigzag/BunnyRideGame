@@ -3,6 +3,7 @@
         "selectorMount": "#app",
         "width": 1280,
         "height": 640,
-        "backgroundColor": "#bccff7"
+        "backgroundColor": "#bccff7",
+        "backgroundTexture": "./assets/street_bg.png"
     }
 }

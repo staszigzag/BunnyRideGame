@@ -1,13 +1,11 @@
 import Scene, { ISceneOptions } from '@core/components/Scene'
-import ModalLeaderboard from '@/components/ModalLeaderboard'
+import ModalLeaderboard from '@/components/modals/ModalLeaderboard'
 
 export default class SceneLeaderboard extends Scene {
-    protected modalLeaderboard: ModalLeaderboard
+    private modalLeaderboard: ModalLeaderboard
     constructor(options: ISceneOptions) {
         super(options)
         this.modalLeaderboard = new ModalLeaderboard()
-        // заполняем юзерами таблицу
-        this.modalLeaderboard.createRowsForLeaderboard()
         // центруем модалку посредине сцены
         this.modalLeaderboard.container.x = this.container.width / 2
         this.modalLeaderboard.container.y = 15 // margin top
@@ -15,6 +13,10 @@ export default class SceneLeaderboard extends Scene {
     }
     // при активации сцены вызывается init
     init(): void {
-        console.log('init scene ', this.id)
+        // заполняем юзерами таблицу
+        this.modalLeaderboard.createRowsForLeaderboard()
+    }
+    updateBecauseTick(): void {
+        // TODO
     }
 }

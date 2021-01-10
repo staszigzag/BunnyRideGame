@@ -16,29 +16,30 @@ export default abstract class ScenesController {
         // TODO обработка событий переключения
     }
 
+    showSceneById(id: string): void {
+        const scene = this.getSceneById(id)
+        if (scene) this.showScene(scene)
+    }
+
     addScenes(...newScenes: Scene[]): void {
         this.scenes.push(...newScenes)
     }
 
-    addAndShowScene(scene: Scene): void {
-        if (!this.scenes.includes(scene)) this.addScenes(scene)
-
+    private showScene(scene: Scene): void {
         scene.init()
-        if (this.currentScene && this.currentScene !== scene) {
-            this.app.stage.removeChild(this.currentScene.container)
-        }
+        if (this.currentScene?.id === scene.id) return
+        if (this.currentScene) this.app.stage.removeChild(this.currentScene.container)
         this.currentScene = scene
         this.app.stage.addChild(this.currentScene.container)
-    }
-
-    showSceneById(id: string): void {
-        const scene = this.getSceneById(id)
-        if (scene) this.addAndShowScene(scene)
     }
 
     private getSceneById(id: string): Scene | null {
         const scene = this.scenes.find((sc) => sc.id === id)
         if (!scene) return null
         return scene
+    }
+    // сообщаем сценам что был тик приложения
+    updateScenesBecauseTick(delta: number): void {
+        this.scenes.forEach((s) => s.updateBecauseTick(delta))
     }
 }

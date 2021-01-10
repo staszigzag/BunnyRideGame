@@ -1,9 +1,9 @@
 import Scene, { ISceneOptions } from '@core/components/Scene'
-import ModalIntro from '@/components/ModalIntro'
+import ModalIntro from '@/components/modals/ModalIntro'
 import { randomNumder } from '@/utils'
 
 export default class SceneIntro extends Scene {
-    protected modalIntro: ModalIntro
+    private modalIntro: ModalIntro
     constructor(options: ISceneOptions) {
         super(options)
         this.modalIntro = new ModalIntro()
@@ -15,5 +15,8 @@ export default class SceneIntro extends Scene {
     // при активации сцены вызывается init
     init(): void {
         this.modalIntro.setScoreText(`${randomNumder(100, 900)}`)
+    }
+    updateBecauseTick(): void {
+        // TODO
     }
 }

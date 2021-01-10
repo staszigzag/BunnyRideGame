@@ -1,5 +1,7 @@
 import { CONFIG_APP } from '@/configs/app.json'
+import CONFIG from '@/configs/ui.json'
 import App from '@core/App'
+import SceneGame from './scenes/SceneGame'
 import SceneIntro from './scenes/SceneIntro'
 import SceneLeaderboard from './scenes/SceneLeaderboard'
 import { SCENES_IDS } from './scenes/scenes_ids'
@@ -12,10 +14,14 @@ export default class BunnyRide extends App {
             width: CONFIG_APP.width
         }
         // размер сцен такой же как и у всего приложения
-        const sceneIntro = new SceneIntro({ id: SCENES_IDS.INTRO, ...size })
-        const sceneLeaderboard = new SceneLeaderboard({ id: SCENES_IDS.LEADER_BOARD, ...size })
+        const scenes = [
+            new SceneIntro({ id: SCENES_IDS.INTRO, ...size }),
+            new SceneLeaderboard({ id: SCENES_IDS.LEADER_BOARD, ...size }),
+            new SceneGame({ id: SCENES_IDS.GAME, ...size })
+        ]
         // регистрируем все сцены
-        super(CONFIG_APP, [sceneIntro, sceneLeaderboard])
+        super(CONFIG_APP, scenes)
+        // this.app.ticker.stop()
         // и показываем нужную
         $store.subscribe((state) => {
             // TODO оптимизировать обработку событий из стора

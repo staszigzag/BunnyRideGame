@@ -1,4 +1,4 @@
-import { IUserLeaderboard } from './components/ModalLeaderboard'
+import { IUserLeaderboard } from './components/modals/ModalLeaderboard'
 
 export const randomNumder = (min: number, max: number): number => {
     min = Math.ceil(min)

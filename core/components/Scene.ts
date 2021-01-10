@@ -16,9 +16,10 @@ export default abstract class Scene extends BaseUIComponents {
         this.id = options.id
         // с помошью прямоугольника задаем нужный размер для пустого контейнера
         this.perimeter = new PIXI.Graphics()
-        this.perimeter.lineStyle(0, 0xff1bff)
+        this.perimeter.lineStyle(0, 0xff1bff) // TODO
         this.perimeter.drawRect(0, 0, options.width, options.height)
         this.addChilds(this.perimeter)
     }
     abstract init(): void
+    abstract updateBecauseTick(delta?: number): void
 }

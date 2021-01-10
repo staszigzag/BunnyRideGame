@@ -5,21 +5,25 @@ import STYLES from '@/configs/stylesText.json'
 import Button from '@core/components/Button'
 import CONFIG from '@/configs/ui.json'
 import { generatMockUsersForLeaderboard } from '@/utils'
-import { ModalLeaderboardRow } from './ModalLeaderboard/ModalLeaderboardRow'
+import ModalLeaderboardRow from './ModalLeaderboard/ModalLeaderboardRow'
 import $store from '@/store'
 import { SCENES_IDS } from '@/scenes/scenes_ids'
+import $gsap from '@/plugins/gsap'
 
 export interface IUserLeaderboard {
     name: string
     score: string
 }
 export default class ModalLeaderboard extends ModalBase {
-    private periodTextSprite: PIXI.Text
+    private periodText: PIXI.Text
     private btnNext: Button
     private btnPrev: Button
     private btnAgree: Button
     private periodsTypes = [TEXTS.MODAL_LEADERBOARD.all, TEXTS.MODAL_LEADERBOARD.month, TEXTS.MODAL_LEADERBOARD.week]
     private currentCountPeriod = 0
+    private currentRows: ModalLeaderboardRow[] = []
+    // если нужнт острановить анимацию
+    private animationTween: gsap.core.Tween | undefined
     // TODO переделать присваение конфига
     private marginRowsTop = CONFIG.LEADERBOARD_ROWS.marginRowsTop
     private offsetRow = CONFIG.LEADERBOARD_ROWS.offsetRow
@@ -28,26 +32,28 @@ export default class ModalLeaderboard extends ModalBase {
         super()
         this.setTitleText(TEXTS.MODAL_LEADERBOARD.header)
 
-        this.periodTextSprite = new PIXI.Text(
+        this.periodText = new PIXI.Text(
             this.periodsTypes[this.currentCountPeriod],
             new PIXI.TextStyle(STYLES.LEADERBOARD_PERIOD)
         )
-        this.periodTextSprite.anchor.set(0.5, 0) // align center
-        this.periodTextSprite.x = this.container.width / 2
-        this.periodTextSprite.y = 60 // margin top
+        this.periodText.anchor.set(0.5, 0) // align center
+        this.periodText.x = this.container.width / 2
+        this.periodText.y = 60 // margin top
 
         this.btnNext = new Button(CONFIG.BTN_ARROW_RIGHT)
         this.btnNext.addClickListener(() => {
-            this.currentCountPeriod =
-                this.currentCountPeriod === 2 ? this.currentCountPeriod : this.currentCountPeriod + 1
+            if (this.currentCountPeriod === 2) return
+            this.currentCountPeriod += 1
             this.setPeriodText(this.periodsTypes[this.currentCountPeriod])
+            this.createRowsForLeaderboard()
         })
 
         this.btnPrev = new Button(CONFIG.BTN_ARROW_LEFT)
         this.btnPrev.addClickListener(() => {
-            this.currentCountPeriod =
-                this.currentCountPeriod === 0 ? this.currentCountPeriod : this.currentCountPeriod - 1
+            if (this.currentCountPeriod === 0) return
+            this.currentCountPeriod -= 1
             this.setPeriodText(this.periodsTypes[this.currentCountPeriod])
+            this.createRowsForLeaderboard()
         })
 
         this.btnAgree = new Button(CONFIG.BTN_AGREE)
@@ -58,10 +64,10 @@ export default class ModalLeaderboard extends ModalBase {
         this.btnAgree.container.pivot.x = this.btnAgree.container.width / 2 // align center
         this.btnAgree.container.x = this.container.width / 2
 
-        this.addChilds(this.periodTextSprite, this.btnNext.container, this.btnPrev.container, this.btnAgree.container)
+        this.addChilds(this.periodText, this.btnNext.container, this.btnPrev.container, this.btnAgree.container)
     }
     setPeriodText(text: string): void {
-        this.periodTextSprite.text = text
+        this.periodText.text = text
     }
     private initializeRow(row: ModalLeaderboardRow, user: IUserLeaderboard, idx: number): void {
         row.container.y =
@@ -73,11 +79,12 @@ export default class ModalLeaderboard extends ModalBase {
     }
 
     createRowsForLeaderboard(usersInfo: IUserLeaderboard[] = []): void {
-        // исполльзуем моки
+        // исполльзуем моки если нет реальных
         if (!usersInfo.length) usersInfo = generatMockUsersForLeaderboard(10)
-        const rows: PIXI.Container[] = []
+        // удаляем старые строки
+        this.clearAllCurrentRows()
         usersInfo.forEach((user, idx) => {
-            let row
+            let row: ModalLeaderboardRow
             // есть повторяющиеся места, но явное лучше неявного
             switch (idx) {
                 case 0:
@@ -126,9 +133,25 @@ export default class ModalLeaderboard extends ModalBase {
                     this.initializeRow(row, user, idx)
                     break
             }
-            if (row) rows.push(row.container)
+            if (row) this.currentRows.push(row)
         })
-        this.addChilds(...rows)
-        // return rows
+        this.showCurrentRows()
+    }
+
+    showCurrentRows(): void {
+        console.log('rows', this.currentRows.length, this.container.children)
+        // если есть запущенная анимация то убиваем ее
+        // P.S. у прошедшей как же можно вызывать
+        this.animationTween?.kill()
+
+        const containersRows = this.currentRows.map((r) => r.container)
+        this.addChilds(...containersRows)
+        this.animationTween = $gsap.from(containersRows, { pixi: { alpha: 0 }, x: 60, ease: 'bounce', stagger: 0.13 })
+    }
+    clearAllCurrentRows(): void {
+        this.currentRows.forEach((r) => {
+            r.container.destroy()
+        })
+        this.currentRows = []
     }
 }
