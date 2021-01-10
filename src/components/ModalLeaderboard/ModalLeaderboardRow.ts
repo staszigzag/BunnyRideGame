@@ -12,12 +12,9 @@ interface IRowOptions {
         score: PIXI.TextStyle
         countPosition?: PIXI.TextStyle
     }
-    height: number
-    width: number
-    nameWidth: number
+    scale: number
     namePositionX: number
     nameTextPositionX: number
-    scoreWidth: number
     scorePositionX: number
     scoreTextPositionX: number
     countPosition?: number
@@ -40,11 +37,10 @@ export class ModalLeaderboardRow extends BaseUIComponents {
         this.scoreTextSprite = new PIXI.Text('', options.styles.score)
 
         this.nameSprite.anchor.set(0, 0.5) // vertical align center
-        this.nameSprite.width = options.nameWidth
+        // this.nameSprite.width = options.nameWidth
         this.nameSprite.x = options.namePositionX
 
         this.scoreSprite.anchor.set(0, 0.5) // vertical align center
-        this.scoreSprite.width = options.scoreWidth
         this.scoreSprite.x = options.scorePositionX
 
         this.nameTextSprite.anchor.set(0, 0.5) // vertical align center
@@ -53,7 +49,7 @@ export class ModalLeaderboardRow extends BaseUIComponents {
         this.scoreTextSprite.anchor.set(0, 0.5) // vertical align center
         this.scoreTextSprite.x = options.scoreTextPositionX
 
-        this.addChilds(this.nameSprite, this.scoreSprite, this.nameTextSprite, this.scoreTextSprite)
+        this.container.scale.set(options.scale)
         // если есть порядковая позиция вополняем этот блок
         if (options.countPosition) {
             this.countPositionTextSprite = new PIXI.Text(`${options.countPosition}`, options.styles.countPosition)
@@ -61,9 +57,7 @@ export class ModalLeaderboardRow extends BaseUIComponents {
             this.countPositionTextSprite.x = options.countPositionTextPositionX!
             this.addChilds(this.countPositionTextSprite)
         }
-
-        this.container.width = options.width
-        this.container.height = options.height
+        this.addChilds(this.nameSprite, this.scoreSprite, this.nameTextSprite, this.scoreTextSprite)
     }
     createTexture(path: string): PIXI.Texture {
         // локальный кэш для текстур

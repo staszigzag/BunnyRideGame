@@ -73,33 +73,27 @@
     },
     "LEADERBOARD_ROWS": {
         "marginRowsTop": 145,
-        "offsetRow": 52,
-        "offsetRowOther": 30
+        "offsetRow": 51,
+        "offsetRowOther": 31
     },
     "LEADERBOARD_TOP_ROW": {
-        "height": 26,
-        "width": 460,
-        "nameWidth": 415,
-        "namePositionX": 22,
-        "nameTextPositionX": 90,
-        "scoreWidth": 145,
-        "scorePositionX": 445,
-        "scoreTextPositionX": 495
+        "scale": 0.65,
+        "namePositionX": 35,
+        "nameTextPositionX": 115,
+        "scorePositionX": 550,
+        "scoreTextPositionX": 610
     },
     "LEADERBOARD_REST_ROWS": {
         "textures": {
             "name": "./assets/ui/midleader_name_plate.png",
             "score": "./assets/ui/midleader_scores_plate.png"
         },
-        "height": 24,
-        "width": 440,
-        "countPositionTextPositionX": 45,
-        "nameWidth": 350,
-        "namePositionX": 80,
-        "nameTextPositionX": 85,
-        "scoreWidth": 140,
-        "scorePositionX": 445,
-        "scoreTextPositionX": 495
+        "scale": 0.67,
+        "countPositionTextPositionX": 50,
+        "namePositionX": 90,
+        "nameTextPositionX": 100,
+        "scorePositionX": 540,
+        "scoreTextPositionX": 600
     },
     "LEADERBOARD_FIRST_TOP_NAME": {
         "textures": {
