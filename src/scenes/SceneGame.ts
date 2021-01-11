@@ -57,7 +57,6 @@ export default class SceneGame extends Scene {
     private gameStart(): void {
         this.modalResult.hiden()
         this.isRun = true
-        this.generatorStoppersIce.stopLoopSpawn()
         this.generatorStoppersIce.clearAll()
         this.generatorStoppersIce.spawn()
         this.generatorStoppersIce.startLoopSpawn()
@@ -65,6 +64,7 @@ export default class SceneGame extends Scene {
     }
     private gameEnd(): void {
         this.isRun = false
+        this.generatorStoppersIce.stopLoopSpawn()
         this.bunny.dead()
         this.modalResult.show()
         $gsap.from(this.modalResult.container, {
